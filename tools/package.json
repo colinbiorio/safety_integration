@@ -1,0 +1,14 @@
+{
+  "name": "hias-tools",
+  "private": true,
+  "description": "Build scripts for the HIAS planning docs (diagrams + Word export)",
+  "type": "module",
+  "scripts": {
+    "diagrams": "node build_diagrams.mjs",
+    "docx": "node md2docx.mjs ../milestone-1/HIAS_Milestone1.md ../milestone-1/HIAS_Milestone1.docx"
+  },
+  "dependencies": {
+    "docx": "^9.7.1",
+    "playwright": "^1.56.1"
+  }
+}

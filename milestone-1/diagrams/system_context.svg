@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="500" viewBox="0 0 1700 500" font-family="Helvetica, Arial, sans-serif">
+<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+  <marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b45309"/></marker>
+  <marker id="ahh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
+  <marker id="ahe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker>
+</defs>
+<rect x="0" y="0" width="1700" height="500" fill="#ffffff"/>
+<text x="850" y="30.0" font-size="20" fill="#1e293b" text-anchor="middle" dominant-baseline="middle" font-weight="700">System context — HIAS sits between Vehicle Control and the actuators, so its override does not depend on any other team</text>
+<rect x="20" y="200" width="150" height="96" rx="8" fill="#fff" stroke="#334155" stroke-width="1.5"/>
+<text x="95" y="248.0" font-size="17" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Sensors</text>
+<rect x="270" y="200" width="170" height="96" rx="8" fill="#fff" stroke="#334155" stroke-width="1.5"/>
+<text x="355" y="237.5" font-size="17" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Perception &amp;</text>
+<text x="355" y="258.5" font-size="17" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Sensor Fusion</text>
+<rect x="540" y="200" width="170" height="96" rx="8" fill="#fff" stroke="#334155" stroke-width="1.5"/>
+<text x="625" y="237.5" font-size="17" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Motion</text>
+<text x="625" y="258.5" font-size="17" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Planning</text>
+<rect x="810" y="200" width="170" height="96" rx="8" fill="#fff" stroke="#334155" stroke-width="1.5"/>
+<text x="895" y="237.5" font-size="17" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Autonomous</text>
+<text x="895" y="258.5" font-size="17" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Vehicle Control</text>
+<rect x="1190" y="200" width="220" height="96" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="2.5"/>
+<text x="1300" y="227.0" font-size="17" fill="#1e293b" text-anchor="middle" dominant-baseline="middle" font-weight="700">HIAS</text>
+<text x="1300" y="248.0" font-size="17" fill="#1e293b" text-anchor="middle" dominant-baseline="middle" font-weight="700">safety supervisor +</text>
+<text x="1300" y="269.0" font-size="17" fill="#1e293b" text-anchor="middle" dominant-baseline="middle" font-weight="700">command gate</text>
+<rect x="1500" y="200" width="180" height="96" rx="8" fill="#fff" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="1590" y="237.5" font-size="17" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Motor (ESC) &amp;</text>
+<text x="1590" y="258.5" font-size="17" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">steering servo</text>
+<polyline points="170,248 270,248" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="220" y="234.0" font-size="15" fill="#64748b" text-anchor="middle" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">raw data</text>
+<polyline points="440,248 540,248" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="490" y="234.0" font-size="15" fill="#64748b" text-anchor="middle" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">obstacles</text>
+<polyline points="710,248 810,248" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="760" y="234.0" font-size="15" fill="#64748b" text-anchor="middle" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">desired_*</text>
+<polyline points="980,234 1190,234" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="1085" y="199.0" font-size="15" fill="#64748b" text-anchor="middle" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">cmd_speed</text>
+<text x="1085" y="217.0" font-size="15" fill="#64748b" text-anchor="middle" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">cmd_steering_angle</text>
+<polyline points="1190,266 980,266" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="1085" y="283.0" font-size="15" fill="#64748b" text-anchor="middle" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">fbk_wheel_speed</text>
+<text x="1085" y="301.0" font-size="15" fill="#64748b" text-anchor="middle" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">fbk_actual_steering</text>
+<polyline points="1410,248 1500,248" fill="none" stroke="#64748b" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahh)"/>
+<text x="1455" y="234.0" font-size="15" fill="#64748b" text-anchor="middle" dominant-baseline="middle">PWM</text>
+<polyline points="355,296 355,386 1250,386 1250,296" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="365" y="402.0" font-size="15" fill="#64748b" text-anchor="start" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">obstacle_distance, obstacle_ttc, sensor_valid, aeb_trigger_request</text>
+<polyline points="625,296 625,356 1220,356 1220,296" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="635" y="344.0" font-size="15" fill="#64748b" text-anchor="start" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">planner_heartbeat</text>
+<rect x="1210" y="426" width="180" height="46" rx="6" fill="#fff" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="1300" y="449.0" font-size="16" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Remote control</text>
+<polyline points="1370,426 1370,296" fill="none" stroke="#64748b" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahh)"/>
+<text x="1380" y="404.0" font-size="15" fill="#64748b" text-anchor="start" dominant-baseline="middle">e-stop, buttons</text>
+<polyline points="1300,200 1300,130 355,130 355,200" fill="none" stroke="#b91c1c" stroke-width="2.2" marker-end="url(#ahe)"/>
+<polyline points="625,130 625,200" fill="none" stroke="#b91c1c" stroke-width="2.2" marker-end="url(#ahe)"/>
+<polyline points="895,130 895,200" fill="none" stroke="#b91c1c" stroke-width="2.2" marker-end="url(#ahe)"/>
+<text x="760" y="114.0" font-size="15" fill="#b91c1c" text-anchor="middle" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">emergency_stop, safety_supervisory_state, hw_hardware_health</text>
+</svg>

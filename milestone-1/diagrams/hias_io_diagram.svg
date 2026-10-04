@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1085" viewBox="0 0 1400 1085" font-family="Helvetica, Arial, sans-serif">
+<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+  <marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b45309"/></marker>
+  <marker id="ahh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
+  <marker id="ahe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker>
+</defs>
+<rect x="0" y="0" width="1400" height="1085" fill="#ffffff"/>
+<text x="700" y="34.0" font-size="23" fill="#1e293b" text-anchor="middle" dominant-baseline="middle" font-weight="700">Hardware Integration &amp; Active Safety (HIAS) — Milestone 1 I/O Diagram</text>
+<text x="700" y="66.0" font-size="15" fill="#64748b" text-anchor="middle" dominant-baseline="middle">Inputs → HIAS → Outputs.  Solid = signal exchanged with another team.  Dashed = physical wiring owned by HIAS.</text>
+<rect x="30" y="100" width="360" height="186" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<text x="42" y="118.0" font-size="13.5" fill="#64748b" text-anchor="start" dominant-baseline="middle" font-weight="700">From Autonomous Vehicle Control</text>
+<text x="44" y="147.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">cmd_speed</text>
+<text x="44" y="168.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">m/s · single · 50 Hz</text>
+<text x="44" y="195.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">cmd_steering_angle</text>
+<text x="44" y="216.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">rad · single · 50 Hz</text>
+<rect x="36" y="231" width="348" height="42" rx="4" fill="#fef3c7" stroke="#fef3c7" stroke-width="1"/>
+<text x="44" y="243.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">avc_heartbeat</text>
+<text x="44" y="264.0" font-size="13" fill="#b45309" text-anchor="start" dominant-baseline="middle">uint32 counter · 50 Hz   [proposed]</text>
+<rect x="30" y="300" width="360" height="234" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<text x="42" y="318.0" font-size="13.5" fill="#64748b" text-anchor="start" dominant-baseline="middle" font-weight="700">From Perception &amp; Sensor Fusion</text>
+<rect x="36" y="335" width="348" height="42" rx="4" fill="#fef3c7" stroke="#fef3c7" stroke-width="1"/>
+<text x="44" y="347.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">obstacle_distance</text>
+<text x="44" y="368.0" font-size="13" fill="#b45309" text-anchor="start" dominant-baseline="middle">m · single · 20 Hz   [proposed]</text>
+<text x="44" y="395.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">obstacle_ttc</text>
+<text x="44" y="416.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">s · single · 20 Hz   [expected]</text>
+<rect x="36" y="431" width="348" height="42" rx="4" fill="#fef3c7" stroke="#fef3c7" stroke-width="1"/>
+<text x="44" y="443.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">sensor_valid</text>
+<text x="44" y="464.0" font-size="13" fill="#b45309" text-anchor="start" dominant-baseline="middle">boolean · 20 Hz   [proposed]</text>
+<text x="44" y="491.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">aeb_trigger_request</text>
+<text x="44" y="512.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">boolean · 20 Hz   [expected]</text>
+<rect x="30" y="548" width="360" height="90" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<text x="42" y="566.0" font-size="13.5" fill="#64748b" text-anchor="start" dominant-baseline="middle" font-weight="700">From Motion Planning</text>
+<text x="44" y="595.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">planner_heartbeat</text>
+<text x="44" y="616.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">uint32 counter · 20 Hz   [expected]</text>
+<polyline points="390,156 490,156" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<polyline points="390,204 490,204" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<polyline points="390,252 490,252" fill="none" stroke="#b45309" stroke-width="1.6" marker-end="url(#ahp)"/>
+<polyline points="390,356 490,356" fill="none" stroke="#b45309" stroke-width="1.6" marker-end="url(#ahp)"/>
+<polyline points="390,404 490,404" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<polyline points="390,452 490,452" fill="none" stroke="#b45309" stroke-width="1.6" marker-end="url(#ahp)"/>
+<polyline points="390,500 490,500" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<polyline points="390,604 490,604" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<rect x="1010" y="100" width="360" height="138" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<text x="1022" y="118.0" font-size="13.5" fill="#64748b" text-anchor="start" dominant-baseline="middle" font-weight="700">Actuator feedback</text>
+<text x="1024" y="147.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">fbk_wheel_speed</text>
+<text x="1024" y="168.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">m/s · 100 Hz  →  AVC, Perception</text>
+<text x="1024" y="195.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">fbk_actual_steering</text>
+<text x="1024" y="216.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">rad · 50 Hz  →  AVC</text>
+<rect x="1010" y="252" width="360" height="186" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<text x="1022" y="270.0" font-size="13.5" fill="#64748b" text-anchor="start" dominant-baseline="middle" font-weight="700">Safety status  →  AVC, Planning, Perception</text>
+<rect x="1016" y="287" width="348" height="42" rx="4" fill="#fef3c7" stroke="#fef3c7" stroke-width="1"/>
+<text x="1024" y="299.0" font-size="16" fill="#b91c1c" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">emergency_stop</text>
+<text x="1024" y="320.0" font-size="13" fill="#b45309" text-anchor="start" dominant-baseline="middle">boolean · 100 Hz   [proposed]</text>
+<text x="1024" y="347.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">safety_supervisory_state</text>
+<text x="1024" y="368.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">uint8 enum · 100 Hz</text>
+<text x="1024" y="395.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">hw_hardware_health</text>
+<text x="1024" y="416.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">uint16 bitmask · 10 Hz</text>
+<rect x="1010" y="452" width="360" height="90" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<text x="1022" y="470.0" font-size="13.5" fill="#64748b" text-anchor="start" dominant-baseline="middle" font-weight="700">Telemetry  →  all teams (informational)</text>
+<text x="1024" y="499.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">battery_rail_voltage</text>
+<text x="1024" y="520.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">V · single · 10 Hz   [expected]</text>
+<rect x="1010" y="556" width="360" height="186" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<text x="1022" y="574.0" font-size="13.5" fill="#64748b" text-anchor="start" dominant-baseline="middle" font-weight="700">Operator buttons (from remote)  →  AVC</text>
+<rect x="1016" y="591" width="348" height="42" rx="4" fill="#fef3c7" stroke="#fef3c7" stroke-width="1"/>
+<text x="1024" y="603.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">user_on · user_off</text>
+<text x="1024" y="624.0" font-size="13" fill="#b45309" text-anchor="start" dominant-baseline="middle">boolean, TRUE while held · 20 Hz   [proposed]</text>
+<rect x="1016" y="639" width="348" height="42" rx="4" fill="#fef3c7" stroke="#fef3c7" stroke-width="1"/>
+<text x="1024" y="651.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">user_inc · user_dec</text>
+<text x="1024" y="672.0" font-size="13" fill="#b45309" text-anchor="start" dominant-baseline="middle">boolean, TRUE while held · 20 Hz   [proposed]</text>
+<rect x="1016" y="687" width="348" height="42" rx="4" fill="#fef3c7" stroke="#fef3c7" stroke-width="1"/>
+<text x="1024" y="699.0" font-size="16" fill="#1e293b" text-anchor="start" dominant-baseline="middle" font-weight="700" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">user_setspeed</text>
+<text x="1024" y="720.0" font-size="13" fill="#b45309" text-anchor="start" dominant-baseline="middle">m/s · single · 20 Hz   [proposed]</text>
+<polyline points="910,156 1010,156" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<polyline points="910,204 1010,204" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<polyline points="910,308 1010,308" fill="none" stroke="#b91c1c" stroke-width="2.4" marker-end="url(#ahe)"/>
+<polyline points="910,356 1010,356" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<polyline points="910,404 1010,404" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<polyline points="910,508 1010,508" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<polyline points="910,612 1010,612" fill="none" stroke="#b45309" stroke-width="1.6" marker-end="url(#ahp)"/>
+<polyline points="910,660 1010,660" fill="none" stroke="#b45309" stroke-width="1.6" marker-end="url(#ahp)"/>
+<polyline points="910,708 1010,708" fill="none" stroke="#b45309" stroke-width="1.6" marker-end="url(#ahp)"/>
+<rect x="490" y="100" width="420" height="642" rx="10" fill="#ffffff" stroke="#334155" stroke-width="2.5"/>
+<text x="700" y="132.0" font-size="21" fill="#1e293b" text-anchor="middle" dominant-baseline="middle" font-weight="700">Hardware Integration &amp;</text>
+<text x="700" y="158.0" font-size="21" fill="#1e293b" text-anchor="middle" dominant-baseline="middle" font-weight="700">Active Safety (HIAS)</text>
+<rect x="518" y="182" width="364" height="121.5" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+<text x="700" y="233.3" font-size="15" fill="#1e293b" text-anchor="middle" dominant-baseline="middle" font-weight="700">Input checks</text>
+<text x="700" y="252.3" font-size="13" fill="#64748b" text-anchor="middle" dominant-baseline="middle">range · NaN · staleness timeouts</text>
+<polyline points="700,303.5 700,321.5" fill="none" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#ah)"/>
+<rect x="518" y="321.5" width="364" height="121.5" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+<text x="700" y="372.8" font-size="15" fill="#1e293b" text-anchor="middle" dominant-baseline="middle" font-weight="700">Safety supervisor (Stateflow)</text>
+<text x="700" y="391.8" font-size="13" fill="#64748b" text-anchor="middle" dominant-baseline="middle">STANDBY · ACTIVE · AEB · E-STOP · SAFE STOP</text>
+<polyline points="700,443 700,461" fill="none" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#ah)"/>
+<rect x="518" y="461" width="364" height="121.5" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+<text x="700" y="502.8" font-size="15" fill="#1e293b" text-anchor="middle" dominant-baseline="middle" font-weight="700">Command gate (override)</text>
+<text x="700" y="521.8" font-size="13" fill="#64748b" text-anchor="middle" dominant-baseline="middle">AVC commands pass only in ACTIVE;</text>
+<text x="700" y="540.8" font-size="13" fill="#64748b" text-anchor="middle" dominant-baseline="middle">otherwise HIAS forces the stop</text>
+<polyline points="700,582.5 700,600.5" fill="none" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#ah)"/>
+<rect x="518" y="600.5" width="364" height="121.5" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+<text x="700" y="651.8" font-size="15" fill="#1e293b" text-anchor="middle" dominant-baseline="middle" font-weight="700">Actuator drivers + feedback</text>
+<text x="700" y="670.8" font-size="13" fill="#64748b" text-anchor="middle" dominant-baseline="middle">PWM out · wheel speed · steering est. · battery</text>
+<rect x="332" y="867" width="136" height="74" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="400" y="887.0" font-size="14" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Remote control</text>
+<text x="400" y="904.0" font-size="14" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">(RC transmitter</text>
+<text x="400" y="921.0" font-size="14" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">or phone app)</text>
+<polyline points="400,867 400,802 530,802 530,742" fill="none" stroke="#64748b" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahh)"/>
+<text x="408" y="829.5" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">e-stop, buttons,</text>
+<text x="408" y="844.5" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">link status</text>
+<rect x="482" y="867" width="136" height="74" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="550" y="895.5" font-size="14" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Wheel speed</text>
+<text x="550" y="912.5" font-size="14" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">sensor</text>
+<polyline points="550,867 550,802 615,802 615,742" fill="none" stroke="#64748b" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahh)"/>
+<text x="558" y="837.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">pulses</text>
+<rect x="632" y="867" width="136" height="74" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="700" y="895.5" font-size="14" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Drive battery</text>
+<text x="700" y="912.5" font-size="14" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">(2S LiPo, TBD)</text>
+<polyline points="700,867 700,742" fill="none" stroke="#64748b" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahh)"/>
+<text x="708" y="829.5" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">voltage</text>
+<text x="708" y="844.5" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">(ADC)</text>
+<rect x="782" y="867" width="136" height="74" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="850" y="895.5" font-size="14" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">ESC +</text>
+<text x="850" y="912.5" font-size="14" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">drive motor</text>
+<polyline points="785,742 785,802 850,802 850,867" fill="none" stroke="#64748b" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahh)"/>
+<text x="858" y="837.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">PWM</text>
+<rect x="932" y="867" width="136" height="74" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="1000" y="895.5" font-size="14" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">Steering</text>
+<text x="1000" y="912.5" font-size="14" fill="#1e293b" text-anchor="middle" dominant-baseline="middle">servo</text>
+<polyline points="870,742 870,802 1000,802 1000,867" fill="none" stroke="#64748b" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahh)"/>
+<text x="1008" y="837.0" font-size="13" fill="#64748b" text-anchor="start" dominant-baseline="middle">PWM</text>
+<text x="700" y="969.0" font-size="14" fill="#64748b" text-anchor="middle" dominant-baseline="middle" font-style="italic">Physical vehicle hardware (prebuilt RC-car layout assumed; microcontroller TBD — see Section 6)</text>
+<polyline points="30,1021 76,1021" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="86" y="1021.0" font-size="13.5" fill="#64748b" text-anchor="start" dominant-baseline="middle">Signal exchanged with another team</text>
+<polyline points="470,1021 516,1021" fill="none" stroke="#b45309" stroke-width="1.6" marker-end="url(#ahp)"/>
+<text x="526" y="1021.0" font-size="13.5" fill="#64748b" text-anchor="start" dominant-baseline="middle">[proposed] new — needs the other team's OK</text>
+<polyline points="1010,1021 1056,1021" fill="none" stroke="#b91c1c" stroke-width="2.4" marker-end="url(#ahe)"/>
+<text x="1066" y="1021.0" font-size="13.5" fill="#64748b" text-anchor="start" dominant-baseline="middle">Primary safety override output</text>
+<polyline points="30,1055 76,1055" fill="none" stroke="#64748b" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahh)"/>
+<text x="86" y="1055.0" font-size="13.5" fill="#64748b" text-anchor="start" dominant-baseline="middle">Physical wiring owned by HIAS</text>
+<text x="470" y="1055.0" font-size="13.5" fill="#64748b" text-anchor="start" dominant-baseline="middle">[expected] = our assumption; the other team has not confirmed</text>
+</svg>
