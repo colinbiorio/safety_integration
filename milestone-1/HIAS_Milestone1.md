@@ -12,7 +12,20 @@ HIAS is the bridge between the software and the physical vehicle, and it is the 
 2. **Feedback.** Measure and report the vehicle's state to the other teams: wheel speed, steering angle, battery voltage and hardware health.
 3. **Active safety.** Run an independent safety supervisor. It watches Perception's obstacle data, the health of the other subsystems and the hardware. When something is unsafe, it overrides AVC's commands and brings the vehicle to a safe stop.
 
-HIAS sits in the actuation path (AVC → HIAS → motor and servo), so its override does not depend on any other team obeying it: AVC's commands only reach the wheels when HIAS lets them through. Section 6 answers the Team 4 questions from the assignment (hardware, microcontroller, connections, stop conditions, override, sensor loss).
+HIAS sits in the actuation path (AVC → HIAS → motor and servo), so its override does not depend on any other team obeying it: AVC's commands only reach the wheels when HIAS lets them through.
+
+**Team 4 questions at a glance** (details in Section 6):
+
+| Question from the assignment | Short answer | Section |
+|---|---|---|
+| What vehicle hardware do we already have? | Not chosen yet. The plan is a prebuilt RC car (ESC + drive motor + steering servo, 2S LiPo) with a remote control. | 6.1 |
+| What microcontroller will be used? | Not decided. We recommend an ESP32 as the safety gate; a Raspberry Pi or laptop can run the heavier software. | 6.2 |
+| How might the motor connect? | Microcontroller PWM pin → ESC → motor (50 Hz, 1.0–2.0 ms pulse) | 6.3 |
+| How might steering connect? | Microcontroller PWM pin → steering servo, calibrated to ±0.436 rad | 6.4 |
+| What does the hardware need from Control? | `cmd_speed` (m/s) and `cmd_steering_angle` (rad) at 50 Hz, plus `avc_heartbeat` | 6.5 |
+| What should cause the vehicle to stop? | E-stop or remote link lost; TTC < 1.5 s or distance < 0.5 m; any lost or invalid input; low battery; sensor fault; overspeed | 6.6 |
+| How will the e-stop override normal operation? | HIAS is the last stage before the motor and only passes AVC's commands in ACTIVE; a hardware kill switch backs it up | 6.7 |
+| What if sensor information is unavailable? | Controlled stop (maximum braking if Perception's data is lost) | 6.8 |
 
 <!-- \landscape -->
 
@@ -66,7 +79,7 @@ Conventions used in every signal below:
 - Expected range: 0.0 to 3.5 m/s, forward only. The real top speed is TBD with the chassis. During early testing HIAS also enforces a configurable speed cap (start at 1.0 m/s).
 - Update rate: 50 Hz (20 ms)
 - Frame: vehicle frame, +X forward
-- Invalid: NaN, < 0.0 m/s, > 3.5 m/s, or stale (> 60 ms)
+- Invalid: NaN, < 0.0 m/s, > 3.6 m/s, or stale (> 60 ms). Values from 3.5 to 3.6 m/s are accepted and capped at 3.5 m/s, so rounding at full speed does not cause a stop.
 - If unavailable or invalid: HIAS enters SAFE_STOP. It ignores `cmd_speed` and ramps the drive command to 0 m/s at the safe-stop deceleration (start with 1.5 m/s², TBD in testing). The ramp starts within 100 ms of the last valid sample.
 
 **Signal 2: `cmd_steering_angle`** — shown as `steering_angle` on AVC's diagram
@@ -151,7 +164,7 @@ Conventions used in every signal below:
 **Signal 9: `fbk_wheel_speed`** — shown as `vehicle_speed` on AVC's diagram
 
 - Source / Destination: HIAS → Autonomous Vehicle Control, Perception & Sensor Fusion
-- Description: Measured vehicle speed from a wheel-speed sensor (Hall-effect or optical; TBD, and a prebuilt RC car will probably need one added). It equals ground speed while the wheels are not slipping. HIAS is the single source of measured speed.
+- Description: Measured vehicle speed from a wheel-speed sensor (Hall-effect or optical; TBD, and a prebuilt RC car will probably need one added). It equals ground speed while the wheels are not slipping. HIAS is the single source of measured speed. HIAS computes it from the time between sensor pulses, because counting pulses in a 10 ms window would read 0 at low speed.
 - Data type / Units: single / m/s
 - Expected range: 0.0 to 4.5 m/s (maximum command plus 1.0 m/s margin for overshoot). Forward only, because a single-channel sensor cannot tell direction.
 - Update rate: 100 Hz (10 ms)
@@ -178,7 +191,7 @@ Conventions used in every signal below:
   - **Motion Planning must:** stop advancing the plan, output `desired_speed` = 0, and replan from the current position after release.
   - **Perception:** no action, but it must **keep publishing obstacle data in every state**, because HIAS uses that data to decide when an AEB stop can be released.
 - Data type / Units: boolean / N/A
-- Expected range: TRUE or FALSE. The power-up value is TRUE.
+- Expected range: TRUE or FALSE. The power-up value is TRUE, so AVC will see it at every power-up. That is intended: `safety_supervisory_state` = 0 tells AVC it is standby, not a hazard.
 - Update rate: 100 Hz (10 ms), and sent immediately when it changes
 - Frame: N/A
 - Invalid: stale (> 30 ms), or disagrees with `safety_supervisory_state`
@@ -351,6 +364,7 @@ Pass criteria:
 
 - The supervisor stays in ACTIVE (1) while the scene is safe, and `cmd_speed` passes through unchanged.
 - When `obstacle_ttc` drops below 1.5 s (or `obstacle_distance` below 0.5 m), the state changes to AEB (2), `emergency_stop` becomes TRUE, and the drive output goes to 0 m/s.
+- **The vehicle actually stops before reaching the obstacle.** The test model includes a simple vehicle model (speed limited by a braking rate, starting at 3 m/s²), and the gap left at standstill must be greater than 0, at every speed up to 3.5 m/s.
 - The state does not flip back and forth near the threshold. With TTC dithering ±0.1 s around 1.5 s there is at most one transition (the 1.5 s trigger and 3.0 s release give hysteresis).
 - After the vehicle stops and the hazard clears for 1 s, the state goes to STANDBY (0), not straight to ACTIVE. (In simulation, a test-only auto re-arm switch can skip the operator step so the AEB cycle can be repeated.)
 - The time from the threshold crossing to the stop command on the output is 20 ms or less (2 supervisor cycles). Together with Perception's update period, the total stays under AVC's 0.1 s.
@@ -482,6 +496,7 @@ The vehicle stops. If Perception's data is missing, stale, or flagged with `sens
 | A5 | Source and format of `user_*` buttons; is `user_setspeed` a number or a SET button? | Jessica | AVC | HIAS relays them from the remote; numeric m/s |
 | P1 | Perception's signal list, sensor range and update rate; agree to send `obstacle_distance` and `sensor_valid` | Jessica | Perception | Section 2.2 values |
 | P2 | Who decides AEB, Perception or HIAS? | Stephen | Perception | HIAS decides; Perception's request is advisory |
+| P3 | Are Perception's sensors (e.g. an ultrasonic sensor) wired to their own board or to the HIAS microcontroller on the car? | Colin | Perception | If they're wired to ours, HIAS adds a raw-reading signal to Perception |
 | M1 | Motion Planning's cycle rate and heartbeat | Jessica | Motion Planning | 20 Hz, timeout 150 ms |
 | S1 | AEB thresholds (TTC 1.5 s / 3.0 s, distance 0.5 m / 1.0 m) | Stephen | Test 1 | Starting values above |
 | S2 | Does AEB need a manual reset? | Stephen | HIAS team | No separate reset switch, but the car never drives off on its own; the operator must re-arm |
