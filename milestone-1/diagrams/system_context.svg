@@ -40,7 +40,7 @@
 <polyline points="1410,248 1500,248" fill="none" stroke="#64748b" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ahh)"/>
 <text x="1455" y="234.0" font-size="15" fill="#64748b" text-anchor="middle" dominant-baseline="middle">PWM</text>
 <polyline points="355,296 355,386 1250,386 1250,296" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
-<text x="365" y="402.0" font-size="15" fill="#64748b" text-anchor="start" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">obstacle_distance, obstacle_ttc, sensor_valid, aeb_trigger_request</text>
+<text x="365" y="402.0" font-size="15" fill="#64748b" text-anchor="start" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">obstacle_distance, obstacle_ttc, sensor_valid</text>
 <polyline points="625,296 625,356 1220,356 1220,296" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#ah)"/>
 <text x="635" y="344.0" font-size="15" fill="#64748b" text-anchor="start" dominant-baseline="middle" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">planner_heartbeat</text>
 <rect x="1210" y="426" width="180" height="46" rx="6" fill="#fff" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4"/>

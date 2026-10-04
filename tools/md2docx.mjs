@@ -63,8 +63,10 @@ let children = sections[0].children;
 let i = 0;
 let imageCount = 0;
 let listInstance = 0;
-const textWidth = () => (sections[sections.length - 1].landscape ? 15840 - 2 * MARGIN : TEXT_W);
-const textHeight = () => (sections[sections.length - 1].landscape ? PAGE_W - 2 * MARGIN : 15840 - 2 * MARGIN);
+// Landscape sections hold the big diagrams, so they get half-inch margins to make the figure as large as possible.
+const LS_MARGIN = 720;
+const textWidth = () => (sections[sections.length - 1].landscape ? 15840 - 2 * LS_MARGIN : TEXT_W);
+const textHeight = () => (sections[sections.length - 1].landscape ? PAGE_W - 2 * LS_MARGIN : 15840 - 2 * MARGIN);
 
 const para = (text, opts = {}) => new Paragraph({ children: runs(text, opts.run), spacing: { after: 120, line: 276 }, ...opts.p });
 
@@ -91,12 +93,16 @@ function table(rows, tw) {
   const plain = t => (t ?? '').replace(/[`*]/g, '').replace(/<br\s*\/?>/gi, ' ');
   const colTexts = header.map((h, c) => [h, ...body.map(r => r[c] ?? '')].map(plain));
   // Narrow columns must still fit their longest word (Word otherwise breaks it letter by letter).
-  const CHAR = 112, PADDING = 260;
-  let mins = colTexts.map(ts => Math.min(26, Math.max(...ts.flatMap(t => t.split(/\s+/)).map(w => w.length))) * CHAR + PADDING);
+  // Code spans render in a smaller monospace font, so they need less width per character than body text.
+  const CHAR = 112, CODE_CHAR = 92, PADDING = 260;
+  const wordWidth = w => Math.min(26, w.replace(/[`*]/g, '').length) * (w.includes('`') ? CODE_CHAR : CHAR);
+  const rawCols = header.map((h, c) => [h, ...body.map(r => r[c] ?? '')].map(t => t.replace(/<br\s*\/?>/gi, ' ')));
+  let mins = rawCols.map(ts => Math.max(...ts.flatMap(t => t.split(/\s+/)).map(wordWidth)) + PADDING);
   const minSum = mins.reduce((a, b) => a + b, 0);
   if (minSum > tw) mins = mins.map(m => Math.floor((m / minSum) * tw));
   const extra = Math.max(0, tw - mins.reduce((a, b) => a + b, 0));
-  const avg = colTexts.map(ts => ts.reduce((a, t) => a + t.length, 0) / ts.length);
+  // Spare width goes mostly to the wordiest columns (power > 1 favours long descriptions over short labels).
+  const avg = colTexts.map(ts => (ts.reduce((a, t) => a + t.length, 0) / ts.length) ** 1.6);
   const avgSum = avg.reduce((a, b) => a + b, 0) || 1;
   const widths = mins.map((m, c) => Math.floor(m + (avg[c] / avgSum) * extra));
   widths[n - 1] += tw - widths.reduce((a, b) => a + b, 0);
@@ -148,7 +154,7 @@ while (i < lines.length) {
     const data = readFileSync(path);
     const { w, h: ph } = pngSize(data);
     const maxW = Math.round(textWidth() / 15); // DXA -> px at 96 dpi
-    const maxH = Math.round(textHeight() / 15) - 110; // leave room for a heading and the caption
+    const maxH = Math.round(textHeight() / 15) - 95; // leave room for a heading and the caption
     const scale = Math.min(1, maxW / w, maxH / ph);
     children.push(new Paragraph({
       alignment: AlignmentType.CENTER,
@@ -216,7 +222,10 @@ while (i < lines.length) {
   const buf = [t];
   i++;
   while (i < lines.length && lines[i].trim() && !/^(#{1,4}\s|\||>|!\[|\s*([-*]|\d+\.)\s|---$|\\pagebreak)/.test(lines[i].trim())) buf.push(lines[i++].trim());
-  children.push(para(buf.join(' ')));
+  const text = buf.join(' ');
+  // A lead-in line ("...:" or a bold table title) should never be stranded at the bottom of a page.
+  const leadIn = /:\**\s*$/.test(text) || /^\*\*[^*]+\*\*(\s*\([^)]*\))?:?\s*$/.test(text) || /^\*\*[^*]+\*\*\s*\(.*\):?$/.test(text);
+  children.push(para(text, leadIn ? { p: { keepNext: true } } : {}));
 }
 
 // A spacer paragraph after a table at the very end of a section makes Word/LibreOffice add a blank page.
@@ -231,6 +240,8 @@ const doc = new Document({
       { id: 'Title', name: 'Title', basedOn: 'Normal', next: 'Normal', run: { size: 40, bold: true, font: FONT, color: INK }, paragraph: { spacing: { after: 120 } } },
       { id: 'Heading1', name: 'Heading 1', basedOn: 'Normal', next: 'Normal', quickFormat: true, run: { size: 30, bold: true, font: FONT, color: INK }, paragraph: { spacing: { before: 360, after: 140 }, outlineLevel: 0 } },
       { id: 'Heading2', name: 'Heading 2', basedOn: 'Normal', next: 'Normal', quickFormat: true, run: { size: 25, bold: true, font: FONT, color: INK }, paragraph: { spacing: { before: 260, after: 100 }, outlineLevel: 1 } },
+      // Footer style so the page-number field result picks up the small grey text too.
+      { id: 'FooterSmall', name: 'Footer Small', basedOn: 'Normal', run: { size: 16, color: SUB, font: FONT } },
       { id: 'Heading3', name: 'Heading 3', basedOn: 'Normal', next: 'Normal', quickFormat: true, run: { size: 22, bold: true, font: FONT, color: SUB }, paragraph: { spacing: { before: 200, after: 80 }, outlineLevel: 2 } },
     ],
   },
@@ -249,9 +260,11 @@ const doc = new Document({
   sections: sections.filter(sec => sec.children.length).map(sec => ({
     properties: { page: {
       size: { width: PAGE_W, height: 15840, orientation: sec.landscape ? PageOrientation.LANDSCAPE : PageOrientation.PORTRAIT },
-      margin: { top: MARGIN, bottom: MARGIN, left: MARGIN, right: MARGIN },
+      margin: sec.landscape
+        ? { top: LS_MARGIN, bottom: LS_MARGIN, left: LS_MARGIN, right: LS_MARGIN }
+        : { top: MARGIN, bottom: MARGIN, left: MARGIN, right: MARGIN },
     } },
-    footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ children: ['HIAS — Milestone 1 · page ', PageNumber.CURRENT], size: 16, color: SUB, font: FONT })] })] }) },
+    footers: { default: new Footer({ children: [new Paragraph({ style: 'FooterSmall', alignment: AlignmentType.CENTER, children: [new TextRun({ children: ['HIAS — Milestone 1 · page ', PageNumber.CURRENT], size: 16, color: SUB, font: FONT })] })] }) },
     children: sec.children,
   })),
 });

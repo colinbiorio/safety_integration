@@ -4,7 +4,7 @@
 //   node tools/build_diagrams.mjs
 //
 // To change a signal, edit INPUTS / OUTPUTS / HARDWARE and re-run. Keep names in sync with
-// milestone-1/HIAS_Milestone1.md (Section 2).
+// milestone-1/HIAS_Milestone1.md (Section 2). Figure 2's labels are written directly in systemContext().
 
 import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -23,13 +23,11 @@ const INPUTS = [
   { group: 'From Autonomous Vehicle Control', signals: [
     { name: 'cmd_speed', meta: 'm/s · single · 50 Hz', status: 'agreed' },
     { name: 'cmd_steering_angle', meta: 'rad · single · 50 Hz', status: 'agreed' },
-    { name: 'avc_heartbeat', meta: 'uint32 counter · 50 Hz', status: 'proposed' },
   ] },
   { group: 'From Perception & Sensor Fusion', signals: [
     { name: 'obstacle_distance', meta: 'm · single · 20 Hz', status: 'proposed' },
     { name: 'obstacle_ttc', meta: 's · single · 20 Hz', status: 'expected' },
     { name: 'sensor_valid', meta: 'boolean · 20 Hz', status: 'proposed' },
-    { name: 'aeb_trigger_request', meta: 'boolean · 20 Hz', status: 'expected' },
   ] },
   { group: 'From Motion Planning', signals: [
     { name: 'planner_heartbeat', meta: 'uint32 counter · 20 Hz', status: 'expected' },
@@ -46,8 +44,8 @@ const OUTPUTS = [
     { name: 'safety_supervisory_state', meta: 'uint8 enum · 100 Hz', status: 'agreed' },
     { name: 'hw_hardware_health', meta: 'uint16 bitmask · 10 Hz', status: 'agreed' },
   ] },
-  { group: 'Telemetry  →  all teams (informational)', signals: [
-    { name: 'battery_rail_voltage', meta: 'V · single · 10 Hz', status: 'expected' },
+  { group: 'Telemetry  →  all teams (for information)', signals: [
+    { name: 'battery_rail_voltage', meta: 'V · single · 10 Hz', status: 'proposed' },
   ] },
   { group: 'Operator buttons (from remote)  →  AVC', signals: [
     { name: 'user_on · user_off', meta: 'boolean, TRUE while held · 20 Hz', status: 'proposed' },
@@ -68,7 +66,7 @@ const HARDWARE = [
 const INTERNAL = [
   ['Input checks', 'range · NaN · staleness timeouts'],
   ['Safety supervisor (Stateflow)', 'STANDBY · ACTIVE · AEB · E-STOP · SAFE STOP'],
-  ['Command gate (override)', 'AVC commands pass only in ACTIVE;', 'otherwise HIAS forces the stop'],
+  ['Command gate (override)', 'AVC\'s speed command passes only in ACTIVE;', 'otherwise HIAS stops the vehicle'],
   ['Actuator drivers + feedback', 'PWM out · wheel speed · steering est. · battery'],
 ];
 
@@ -236,7 +234,7 @@ function hiasIO() {
     sc.text({ x: cx + 8, y: hwTop - 30, text: h.wire, size: 13, color: C.sub, lh: 15, vcenter: true });
   });
   const captionY = hwTop + hwH + 28;
-  sc.text({ x: BX + BW / 2, y: captionY, text: 'Physical vehicle hardware (prebuilt RC-car layout assumed; microcontroller TBD — see Section 6)', size: 14, color: C.sub, anchor: 'middle', italic: true });
+  sc.text({ x: BX + BW / 2, y: captionY, text: 'Physical vehicle hardware (prebuilt RC-car layout assumed; microcontroller TBD — see Team 4 Questions)', size: 14, color: C.sub, anchor: 'middle', italic: true });
 
   // Legend (two rows, fixed column positions so labels never collide)
   const rowsY = [captionY + 52, captionY + 86];
@@ -301,7 +299,7 @@ function systemContext() {
   const lowY = y + h + 60;
   const perX = B.per.x + B.per.w / 2, mpX = B.mp.x + B.mp.w / 2;
   sc.arrow({ pts: [[perX, y + h], [perX, lowY + 30], [B.hias.x + 60, lowY + 30], [B.hias.x + 60, y + h]] });
-  sc.text({ x: perX + 10, y: lowY + 46, text: 'obstacle_distance, obstacle_ttc, sensor_valid, aeb_trigger_request', size: 15, color: C.sub, mono: true });
+  sc.text({ x: perX + 10, y: lowY + 46, text: 'obstacle_distance, obstacle_ttc, sensor_valid', size: 15, color: C.sub, mono: true });
   sc.arrow({ pts: [[mpX, y + h], [mpX, lowY], [B.hias.x + 30, lowY], [B.hias.x + 30, y + h]] });
   sc.text({ x: mpX + 10, y: lowY - 12, text: 'planner_heartbeat', size: 15, color: C.sub, mono: true });
 
